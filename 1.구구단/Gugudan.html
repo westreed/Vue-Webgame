@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>구구단</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="root">
+        <div>{{first}} 곱하기 {{second}}는?</div>
+        <form v-on:submit="onSubmitForm">
+            <input ref="answer" type="number" v-model="value">
+            <button type="submit">입력</button>
+        </form>
+        <div id="result">{{result}}</div>
+    </div>
+</body>
+<script>
+    const app = new Vue({
+        el: "#root",
+        data: {
+            first: Math.ceil(Math.random() * 9),
+            second: Math.ceil(Math.random() * 9),
+            result: '',
+            value: '',
+        },
+        methods: {
+            updateNumber(){
+                var num1 = 0;
+                var num2 = 0;
+                do {
+                    num1 = Math.ceil(Math.random() * 9);
+                    num2 = Math.ceil(Math.random() * 9);
+                    console.log(num1, num2);
+                } while (num1 == this.first && num2 == this.second);
+                this.first = num1;
+                this.second = num2;
+            },
+            onSubmitForm(e){
+                console.log(e);
+                e.preventDefault();
+                if (this.first * this.second === parseInt(this.value)){
+                    this.result = "정답";
+                    this.value = '';
+                    this.updateNumber();
+                } else {
+                    this.result = "땡";
+                }
+                this.$refs.answer.focus();
+            },
+        },
+    });
+</script>
+</html>
