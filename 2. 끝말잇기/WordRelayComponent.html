@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>끝말잇기</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="root">
+        <word-relay start-word="바보"></word-relay>
+        <word-relay start-word="공부"></word-relay>
+        <word-relay start-word="하이"></word-relay>
+    </div>
+</body>
+<script>
+    // Vue.js에서는 html쪽에는 케밥케이스(-)를 쓰고, script에서는 파스칼이나 카멜케이스로 작성해야함.
+    Vue.component('WordRelay', {
+        template: `
+            <div>
+                <div>단어 : {{word}}</div>
+                    <form v-on:submit="onSubmitForm">
+                        <input ref="answer" type="text" v-model="value">
+                        <button type="submit">입력</button>
+                    </form>
+                <div>{{result}}</div>
+            </div>
+        `,
+        props: ['StartWord'],
+        data(){
+            return {
+                word:this.StartWord,
+                value: '',
+                result: ''
+            }
+        },
+        methods: {
+            onSubmitForm(e) {
+                e.preventDefault();
+                if (this.word[this.word.length-1] === this.value[0]){
+                    this.result = '딩동댕';
+                    this.word = this.value;
+                    this.value = '';
+                } else {
+                    this.result = '땡';
+                }
+                this.$refs.answer.focus();
+            },
+        },
+    })
+</script>
+<script>
+    const app = new Vue({
+        el: "#root",
+        data: {
+        },
+        methods: {
+        },
+    });
+</script>
+</html>
